@@ -80,6 +80,7 @@ class UserService {
 
   // Update a user
   async updateUser(req, res) {
+    console.log('this called');
     try {
       const { name, email, password } = req.body;
       const userId = req.params.id;
@@ -92,6 +93,7 @@ class UserService {
         updateFields.password = await bcrypt.hash(password, salt);
       }
       if (req.file) {
+        console.log(req.file);
         updateFields.profilePicture = `/uploads/${req.file.filename}`;
       }
       const updatedUser = await User.findByIdAndUpdate(

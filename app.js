@@ -1,6 +1,7 @@
 import express from "express";
 import dbConnection from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
+import activityRoutes from "./routes/activityRoutes.js"
 import "dotenv/config";
 import path from 'path';
 
@@ -15,6 +16,7 @@ app.use(
 );
 
 app.use('/api', userRoutes);
+app.use('/api', activityRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");

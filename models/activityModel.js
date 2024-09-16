@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const commentSchema = new mongoose({
+const commentSchema = new mongoose.Schema({
   userID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -36,16 +36,21 @@ const activitySchema = new mongoose.Schema({
     enum: ["public", "private"],
     required: true,
   },
+  access: {
+    type: String,
+    enum: ["remote", "physical"],
+    required: true,
+  },
   location: {
     type: String,
     required: function () {
-      return this.type === "public";
+      return this.access === "physical";
     },
   },
   onlineUrl: {
     type: String,
     required: function () {
-      return this.type === "private";
+      return this.access === "remote";
     },
   },
   time: {
@@ -56,8 +61,9 @@ const activitySchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  imageURL: {
+  images: {
     type: String,
+    default: "/uploads/activities.jpeg"
   },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
@@ -72,9 +78,10 @@ const activitySchema = new mongoose.Schema({
   ],
   status: {
     type: String,
-    enum: ["ongoing", "completed"],
-    default: "ongoing",
+    enum: ["upcoming","ongoing", "completed"],
+    default: "upcoming",
   },
+  comments: [commentSchema],
 });
 
 const Activity = mongoose.model("Activity", activitySchema);
