@@ -10,7 +10,6 @@ router.post(
   ActivityService.createActivity
 );
 router.get("/activities", ActivityService.getAllActivities);
-router.get("/activities/:id", ActivityService.getActivityById);
 router.patch(
   "/activities/:id",
   upload.single("images"),
@@ -18,5 +17,6 @@ router.patch(
 );
 router.delete("/activities/:id", ActivityService.deleteActivity);
 router.post("/activities/:id/comment", ActivityService.addCommentToActivity);
+router.get("/activities/:id", ActivityService.getActivityById);
 
 export default router;

@@ -14,6 +14,7 @@ class ActivityServices {
         onlineUrl,
         location,
         createdBy,
+        participants
       } = req.body;
       const images = req.file
         ? `/uploads/${req.file.filename}`
@@ -28,6 +29,7 @@ class ActivityServices {
         onlineUrl: access === "remote" ? onlineUrl : "No Url defined",
         location: access === "physical" ? location : "No address defined",
         createdBy,
+        participants,
         images,
       });
       const createdActivity = await newActivity.save();
@@ -72,6 +74,8 @@ class ActivityServices {
         onlineUrl,
         location,
         createdBy,
+        status,
+        participants
       } = req.body;
       const images = req.file ? `/uploads/${req.file.filename}` : undefined;
       const updatedActivity = await Activity.findByIdAndUpdate(
@@ -87,6 +91,8 @@ class ActivityServices {
           location: access === "physical" ? location : "No address defined",
           createdBy,
           images,
+          status,
+          participants
         },
         { new: true }
       );
@@ -121,11 +127,11 @@ class ActivityServices {
       const updatedActivity = await Activity.findById(activityId);
       if (!updatedActivity)
         return res.status(404).json({ message: "Activity not found" });
-      const newComment = new Comment({ userID, comment, rating });
+   const newComment = { userID, comment, rating };
 
       updatedActivity.comments.push(newComment);
       await updatedActivity.save();
-      res.status(201).json({ message: "Comment added successfully", activity });
+      res.status(201).json({ message: "Comment added successfully" });
     } catch (err) {
       res.status(500).json({ message: err.message });
     }
