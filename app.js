@@ -19,7 +19,7 @@ app.use('/api', userRoutes);
 app.use('/api', activityRoutes);
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("Welcome to ActivityHub!");
 });
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
