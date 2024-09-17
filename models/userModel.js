@@ -26,6 +26,12 @@ const userSchema = new mongoose.Schema({
     },
   ],
 });
+// lets create some index
+userSchema.index({ email: 1 });
+userSchema.index({ name: 1 });
+userSchema.index({ joinedActivities: 1 });
+userSchema.index({ joinedActivities: 1, name: 1 });
+
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();

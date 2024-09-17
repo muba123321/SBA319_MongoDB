@@ -14,6 +14,7 @@ const commentSchema = new mongoose.Schema({
     type: Number,
     min: 1,
     max: 5,
+    message: "Rating must be between 1 and 5",
     required: true,
   },
   timestamp: {
@@ -21,6 +22,9 @@ const commentSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
+
+commentSchema.index({timestamp: 1})
+
 
 const activitySchema = new mongoose.Schema({
   title: {
@@ -83,6 +87,10 @@ const activitySchema = new mongoose.Schema({
   },
   comments: [commentSchema],
 });
+activitySchema.index({title: 1})
+activitySchema.index({date: 1})
+activitySchema.index({time: 1})
+activitySchema.index({ status: 1, date: -1 });
 
 const Activity = mongoose.model("Activity", activitySchema);
 export default Activity;
